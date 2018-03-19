@@ -6,10 +6,12 @@
         "Silverstripe-CMS",
         "CMS",
         "Silverstripe",
-        "google",
-        "calendar",
-        "client",
-        "interface"
+        "server",
+        "dump",
+        "db",
+        "git",
+        "versions",
+        "version management"
     ],
     "authors": [
         {

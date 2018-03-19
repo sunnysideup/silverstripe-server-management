@@ -1,0 +1,30 @@
+{
+    "name": "sunnysideup/server-management",
+    "type": "library",
+    "description": "Class implementation to connect to a google calendar",
+    "keywords": [
+        "Silverstripe-CMS",
+        "CMS",
+        "Silverstripe",
+        "google",
+        "calendar",
+        "client",
+        "interface"
+    ],
+    "authors": [
+        {
+            "name": "Nicolaas Francken",
+            "email": "modules@sunnysideup.co.nz"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "google/apiclient": "^2.0",
+        "silverstripe/framework": "~3.6",
+        "silverstripe/cms": "~3.6"
+    },
+    "extra": {
+        "installer-name": "server-management"
+    },
+    "license": "BSD-3-Clause"
+ }

@@ -48,3 +48,9 @@ shell_exec('composer install --no-dev');
 $oldFileContent = file_get_contents($logFileName);
 $newFileContent = $oldFileContent . "\nChecked out tag: ". $tagToPull . " at ". date("Y-m-d H:i:s");
 file_put_contents($logFileName, $newFileContent);
+
+echo '
+========================
+You are now at '.shell_exec('git describe --tags ').'
+========================
+';

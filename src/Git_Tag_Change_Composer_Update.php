@@ -7,7 +7,7 @@ if((php_sapi_name() === 'cli')) {
     $dir = '/container/application/public';
 
     //Name of file that checkout logs will be dumped into.
-    $logFileName = "/container/application/gitCheckoutLog.txt";
+    $logFileName = "/container/application/_git_log.txt";
 
     //!!!!!! UNCOMENT FOR LIVE ENVIRONMENT !!!!!!
     chdir($dir);
@@ -19,7 +19,7 @@ if((php_sapi_name() === 'cli')) {
 
     //Get the most recent details from the repo then
     //Fetch the tag details and turn them into array.
-    $pwd = shell_exec('pwd');
+    $pwd = trim(shell_exec('pwd'));
     if($pwd !== $dir) {
         echo 'You are not in the right directory: '.$dir."\n";
         exit();

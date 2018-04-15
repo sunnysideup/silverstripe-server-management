@@ -1,7 +1,7 @@
 {
     "name": "sunnysideup/server-management",
-    "type": "library",
-    "description": "Class implementation to connect to a google calendar",
+    "type": "silverstripe-module",
+    "description": "Server Hacks to upgrade / downgrade",
     "keywords": [
         "Silverstripe-CMS",
         "CMS",
@@ -19,12 +19,6 @@
             "email": "modules@sunnysideup.co.nz"
         }
     ],
-    "require": {
-        "php": ">=5.5.0",
-        "google/apiclient": "^2.0",
-        "silverstripe/framework": "~3.6",
-        "silverstripe/cms": "~3.6"
-    },
     "extra": {
         "installer-name": "server-management"
     },

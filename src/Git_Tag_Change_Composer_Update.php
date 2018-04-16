@@ -24,6 +24,7 @@ if((php_sapi_name() === 'cli')) {
         echo 'You are not in the right directory: '.$dir."\n";
         exit();
     }
+    shell_exec('git fetch --tags');
     shell_exec('git fetch --all');
 
     $list = (shell_exec('git tag'));

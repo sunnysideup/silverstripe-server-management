@@ -1,37 +1,35 @@
 <?php
 
 //!!!!!!!!!! WARNING THIS DOES NOT YET ACCOUNT FOR REPOS WITHOUT TAGS!!!!!!!!!!!!!!!!!!!
-if((php_sapi_name() === 'cli')) {
+if ((php_sapi_name() === 'cli')) {
     //Check for user version tag argument
     $userDefinedTag = '';
 
     //find the safe dir ...
     $safeDir = dirname(realpath($argv[0]));
     $found = false;
-    while($found === false && file_exists($safeDir)) {
-        if(file_exists('.htaccess')) {
+    while ($found === false && file_exists($safeDir)) {
+        if (file_exists('.htaccess')) {
             //we are in public territory... NOT GOOD
-        }
-        elseif(file_exists($safeDir.'/_ss_environment.php')) {
+        } elseif (file_exists($safeDir.'/_ss_environment.php')) {
+            $found = true;
+        } elseif (file_exists($safeDir.'/.env')) {
             $found = true;
         }
-        elseif(file_exists($safeDir.'/.env')) {
-            $found = true;
-        }
-        if($found === false)
+        if ($found === false) {
             $safeDir = dirname($safeDir);
         }
     }
 
     //now find the public directory ...
-    $options [
+    $options = [
         'public',
         'wwww',
         'public_html'
     ];
 
-    foreach($options as $option) {
-        if(file_exists($safeDir.'/'.$option)) {
+    foreach ($options as $option) {
+        if (file_exists($safeDir.'/'.$option)) {
             $publicDir = $safeDir.'/'.$option;
             break;
         }
@@ -39,25 +37,21 @@ if((php_sapi_name() === 'cli')) {
 
 
     //Name of file that checkout logs will be dumped into.
-    $logFileName = "_git_log.txt";
+    $logFileName = '_git_log.txt';
 
 
     //If present sets the desired tag version from commandline
-    if($argc > 1){
+    if ($argc > 1) {
         $userDefinedTag = $argv[1];
     }
 
     ########## ########## ##########
     ########## START ACTION
     ########## ########## ##########
-    echo '
-========================
-';
-    echo 'SAFE DIR: '.$safeDir;
-    echo 'PUBLIC DIR: '.$safeDir;
-    echo '
-========================
-';
+    echo '========================'. PHP_EOL;
+    echo 'SAFE DIR: '.$safeDir. PHP_EOL;
+    echo 'PUBLIC DIR: '.$publicDir. PHP_EOL;
+    echo '========================'. PHP_EOL;
 
     //!!!!!! UNCOMENT FOR LIVE ENVIRONMENT !!!!!!
     chdir($publicDir);
@@ -65,8 +59,10 @@ if((php_sapi_name() === 'cli')) {
     //Get the most recent details from the repo then
     //Fetch the tag details and turn them into array.
     $pwd = trim(shell_exec('pwd'));
-    if($pwd !== $publicDir) {
-        echo 'You are not in the right directory: '.$publicDir."\n";
+    if ($pwd === $publicDir) {
+        echo 'We are now working on '.$publicDir. PHP_EOL;
+    } else {
+        echo 'You are not in the right directory: '.$publicDir. PHP_EOL;
         exit();
     }
     shell_exec('git fetch --tags');
@@ -74,25 +70,24 @@ if((php_sapi_name() === 'cli')) {
 
     //what tag are we getting ....
     $list = (shell_exec('git tag'));
-    $splitList = explode("\n",$list);
+    $splitList = explode("\n", $list);
     array_pop($splitList);
     $tagToPull = '';
-    if(count($splitList) === 0) {
+    if (count($splitList) === 0) {
         $tagToPull = 'master';
     }
 
     //Check if the user specified tag is present otherwise
     //pull the most recent.
-    if($tagToPull === 'master') {
-         echo 'No tags available, using: ' . $tagToPull . "\n";
-        //do nothing
-    }
-    elseif(in_array($userDefinedTag, $splitList)){
+    if ($tagToPull === 'master') {
+        echo 'No tags available, using: ' . $tagToPull . PHP_EOL;
+    //do nothing
+    } elseif (in_array($userDefinedTag, $splitList)) {
         $tagToPull = $userDefinedTag;
-        echo 'Tag found, using specified tag: ' . $tagToPull ."\n";
+        echo 'Tag found, using specified tag: ' . $tagToPull. PHP_EOL;
     } else {
         $tagToPull = end($splitList);
-        echo 'Requested tag not found, using latest tag: ' . $tagToPull . " instead.\n";
+        echo 'Requested tag not found, using latest tag: ' . $tagToPull . ' instead'.PHP_EOL;
     }
 
     //Proceed to checkout the last
@@ -100,7 +95,7 @@ if((php_sapi_name() === 'cli')) {
 
     //Write to the log
     $oldFileContent = file_get_contents($safeDir.'/'.$logFileName);
-    $newFileContent = $oldFileContent . "\nChecked out tag: ". $tagToPull . " at ". date("Y-m-d H:i");
+    $newFileContent = $oldFileContent . PHP_EOL . ' - '. $tagToPull . ' - '. date('Y-m-d H:i');
     file_put_contents($safeDir.'/'.$logFileName, $newFileContent);
 
     //Composer install all the correct dependancies.
@@ -116,11 +111,11 @@ if((php_sapi_name() === 'cli')) {
     shell_exec('find . -name "*.sql.gz" -exec rm "{}" \;');
     shell_exec('find . -name "*.sql" -exec rm "{}" \;');
 
-    echo <<<printme
+    echo '
 
 ========================
 You are now at '.shell_exec('git describe --tags ').'
 ========================
 
-printme;
+';
 }

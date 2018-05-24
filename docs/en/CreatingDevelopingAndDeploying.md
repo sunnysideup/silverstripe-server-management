@@ -8,20 +8,8 @@
  - set up image styles as per below
  - run a `/dev/build/`
 
-
-# Image Styles (REQUIRED)
-
- - go to `imagewithstyle/_config/imagestyledefauls.yml.example` to review example
- - enter your desired styles here:  `mysite/_config/imagestyledefaults.yml`, we have entered some examples by default.
- - review: `perfect_cms_images/_config/perfect_cms_images.yml.example`
- - enter your desired image styles here: `mysite/_config/perfect_cms_images.yml`
- - *NB the `ClassNameForCSS` should match the `Name` in the perfect CMS Image.*
- - make sure you follow yml syntax or you will get weird errors
-
-
 # Front-End Setup
 
-- copy `themes/webpack-variables.example.js` to `themes/webpack-variables.js`
 - browse to `/themes/sswebpack_engine_only`
 - type `npm install`
 - type `npm run watch`

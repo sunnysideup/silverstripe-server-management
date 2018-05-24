@@ -47,42 +47,40 @@
 
 # updating the test / live site ....
 
- - NB. the above will load the latest tag in the test / live site
+ - NB. the above will load the latest tag
  - Make sure you read any error messages carefully.
+ - If there are changes on the server then `git stash` them.
 
 
- - # _go to local root dir_:
+ - `# _go to local root dir_:`
  - `cd /var/www/mysite.co.nz.localhost/`
 
- - # _update modules_:
+ - `# _update modules_:`
  - `composer update`
 
- - # _create front-end files_:
+ - `# _create front-end files_:`
  - `cd ./themes/sswebpack_engine_only && npm run build && cd ../../`
 
- - # _git commit_:
+ - `# _git commit_:`
  - `git add . -A && git commit . -m "PATCH: new release" && git pull origin master && git push origin master`
 
- - # _review tags_:
- - # review the last tag numbers
- - # create a new one, bug-fixes are third number (z), enhancements are second number (y) and first number (x) is for API breaking changes.
+ - `# _review tags_:`
+ - `# review the last tag numbers`
+ - `# create a new one, bug-fixes are third number (z), enhancements are second number (y) and first number (x) is for API breaking changes.`
  - `git tag`
 
- - # _review tags to find best new number (x,y.z)_ 
+ - `# _review tags to find best new number (x,y.z)_ `
  - `git tag x.y.z && git push --tags`
 
- - # load new tag on test / live site ...
- - # assumes you have set up an SSH alias myalias in ~/.ssh/config, if you have not you can use: myalias@223.165.66.192 instead of myalias
+ - `# load new tag on test / live site ...`
+ - `# assumes you have set up an SSH alias myalias in ~/.ssh/config, if you have not you can use: myalias@223.165.66.192 instead of myalias`
  - `ssh myalias "php /container/application/silverstripe-server-management/src/Git_Tag_Change_Composer_Update.php"`
- - # Browse to 'http://test.mysite.co.nz/dev/build/?flush=all' to check it is all working
 
- - If there are changes on the server then `git stash` them.
+ - `# Browse to 'http://test.mysite.co.nz/dev/build/?flush=all' to check it is all working`
+
+ - `# To load another tag:`
  - `ssh myalias "php /container/application/silverstripe-server-management/src/Git_Tag_Change_Composer_Update.php 0.10.0"`
 
-
-# Default Data
-
-To replace the database with default data, define add `define('SSU_DEV', true);` to your `_ss_environment.php` file. **Careful, this will replace all your data.**
 
 
 # Getting DB + Assets from Test / Live to local

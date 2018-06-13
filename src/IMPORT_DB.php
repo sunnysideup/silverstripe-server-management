@@ -5,8 +5,6 @@ if ((php_sapi_name() === 'cli')) {
     require_once($location);
     $message   =  "Are you sure you want to do import a database [y/N]";
     print $message;
-    flush();
-    ob_flush();
     $confirmation  =  trim( fgets( STDIN ) );
     if ( $confirmation !== 'y' ) {
        // The user did not say 'y'.

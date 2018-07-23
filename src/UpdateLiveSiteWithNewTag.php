@@ -99,7 +99,7 @@ if ((php_sapi_name() === 'cli')) {
     $newFileContent = $oldFileContent . PHP_EOL . ' - '. $tagToPull . ' - '. date('Y-m-d H:i');
     if($checkoutResult == null){
 		$newFileContent = $oldFileContent . PHP_EOL . ' - FAILED TO CHECKOUT TAG: '. $tagToPull . ' - '. date('Y-m-d H:i');
-		echo "------------- GIT CHECKOUT FAILED !!!!! --------------------";
+		echo PHP_EOL . "------------- GIT CHECKOUT FAILED !!!!! --------------------" . PHP_EOL;
 	} 
     file_put_contents($safeDir.'/'.$logFileName, $newFileContent);
 

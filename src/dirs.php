@@ -12,7 +12,7 @@ while ($found === false && file_exists($safeDir) && $x < 99) {
         require_once($safeDir.'/_ss_environment.php');
         $found = true;
     } elseif (file_exists($safeDir.'/.env')) {
-        die('please create an _ss_environment.php copy of your .env file');
+        die('please create an _ss_environment.php copy of your .env file. A .env reader will be included in the future.');
         $found = true;
     }
     if ($found === false) {

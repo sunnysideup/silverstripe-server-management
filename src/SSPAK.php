@@ -13,12 +13,12 @@ if ((php_sapi_name() === 'cli')) {
         echo '---------- FAILED ------------';
     }
     if(file_exists($publicDir.'/public/assets')) {
-        $command = 'cd '.$publicDir.' && tar czf assets.tar.gz '.'/public/assets';
+        $command = 'cd '.$publicDir.' && tar czf assets.tar.gz public/assets';
         echo '# '.$command.PHP_EOL;
         var_dump(shell_exec($command));
     }
     elseif(file_exists($publicDir.'/assets')) {
-        $command = 'cd '.$publicDir.' && tar czf assets.tar.gz /assets';
+        $command = 'cd '.$publicDir.' && tar czf assets.tar.gz assets';
         echo '# '.$command.PHP_EOL;
         var_dump(shell_exec($command));
     }

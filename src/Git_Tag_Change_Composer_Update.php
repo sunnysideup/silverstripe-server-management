@@ -3,38 +3,9 @@
 //!!!!!!!!!! WARNING THIS DOES NOT YET ACCOUNT FOR REPOS WITHOUT TAGS!!!!!!!!!!!!!!!!!!!
 if ((php_sapi_name() === 'cli')) {
     //Check for user version tag argument
+    require_once('dirs.php');
+
     $userDefinedTag = '';
-
-    //find the safe dir ...
-    $safeDir = dirname(realpath($argv[0]));
-    $found = false;
-    while ($found === false && file_exists($safeDir)) {
-        if (file_exists('.htaccess')) {
-            //we are in public territory... NOT GOOD
-        } elseif (file_exists($safeDir.'/_ss_environment.php')) {
-            $found = true;
-        } elseif (file_exists($safeDir.'/.env')) {
-            $found = true;
-        }
-        if ($found === false) {
-            $safeDir = dirname($safeDir);
-        }
-    }
-
-    //now find the public directory ...
-    $options = [
-        'public',
-        'wwww',
-        'public_html'
-    ];
-
-    foreach ($options as $option) {
-        if (file_exists($safeDir.'/'.$option)) {
-            $publicDir = $safeDir.'/'.$option;
-            break;
-        }
-    }
-
 
     //Name of file that checkout logs will be dumped into.
     $logFileName = '_git_log.txt';
@@ -45,13 +16,7 @@ if ((php_sapi_name() === 'cli')) {
         $userDefinedTag = $argv[1];
     }
 
-    ########## ########## ##########
-    ########## START ACTION
-    ########## ########## ##########
-    echo '========================'. PHP_EOL;
-    echo 'SAFE DIR: '.$safeDir. PHP_EOL;
-    echo 'PUBLIC DIR: '.$publicDir. PHP_EOL;
-    echo '========================'. PHP_EOL;
+
 
     //!!!!!! UNCOMENT FOR LIVE ENVIRONMENT !!!!!!
     chdir($publicDir);
@@ -118,4 +83,6 @@ You are now at '.shell_exec('git describe --tags ').'
 ========================
 
 ';
+} else {
+    die('Please access from command line ...');
 }

@@ -4,7 +4,7 @@ if ((php_sapi_name() === 'cli')) {
 
     require_once('dirs.php');
 
-    $command = 'mysqldump -u '.SS_DATABASE_USERNAME.' -p'.SS_DATABASE_PASSWORD.' -h '.SS_DATABASE_SERVER.' '.SS_DATABASE_NAME.' > '.$publicDir.'/database.sql.sql';
+    $command = 'mysqldump -u '.SS_DATABASE_USERNAME.' -p'.SS_DATABASE_PASSWORD.' -h '.SS_DATABASE_SERVER.' '.SS_DATABASE_NAME.' > '.$publicDir.'/database.sql';
     echo '# '.$command.PHP_EOL;
     var_dump(shell_exec($command));
     if (file_exists('/container/application/database.sql')) {
@@ -27,13 +27,18 @@ if ((php_sapi_name() === 'cli')) {
     echo '# '.$command.PHP_EOL;
     var_dump(shell_exec($command));
 
-    $command = 'rm '.$publicDir.'/database.sql.sql';
+    $command = 'rm '.$publicDir.'/database.sql.gz';
     echo '# '.$command.PHP_EOL;
     var_dump(shell_exec($command));
 
     $command = 'rm '.$publicDir.'/assets.tar.gz';
     echo '# '.$command.PHP_EOL;
     var_dump(shell_exec($command));
+
+    $command = 'mv '.SS_DATABASE_NAME.'.sspak ..';
+    echo '# '.$command.PHP_EOL;
+    var_dump(shell_exec($command));
+
     echo '
     ';
 } else {

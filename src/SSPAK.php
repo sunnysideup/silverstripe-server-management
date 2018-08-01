@@ -4,6 +4,10 @@ if ((php_sapi_name() === 'cli')) {
 
     require_once('dirs.php');
 
+    $command = 'rm'.$safeDir.'/'.SS_DATABASE_NAME.'.sspak';
+    echo PHP_EOL.'# '.$command.PHP_EOL;
+    var_dump(shell_exec($command));
+
     $command = 'mysqldump -u '.SS_DATABASE_USERNAME.' -p'.SS_DATABASE_PASSWORD.' -h '.SS_DATABASE_SERVER.' '.SS_DATABASE_NAME.' > '.$publicDir.'/database.sql';
     echo PHP_EOL.'# '.$command.PHP_EOL;
     var_dump(shell_exec($command));

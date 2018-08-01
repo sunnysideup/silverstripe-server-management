@@ -9,14 +9,18 @@ while ($found === false && file_exists($safeDir) && $x < 99) {
     if (file_exists('.htaccess')) {
         //we are in public territory... NOT GOOD
     } elseif (file_exists($safeDir.'/_ss_environment.php')) {
+        require_once($safeDir.'/_ss_environment.php');
         $found = true;
     } elseif (file_exists($safeDir.'/.env')) {
+        die('please create an _ss_environment.php copy of your .env file');
         $found = true;
     }
     if ($found === false) {
         $safeDir = dirname($safeDir);
     }
 }
+$cwd = $safeDir.'/';
+
 
 //now find the public directory ...
 $options = [
@@ -41,5 +45,3 @@ echo '========================'. PHP_EOL;
 echo 'SAFE DIR: '.$safeDir. PHP_EOL;
 echo 'PUBLIC DIR: '.$publicDir. PHP_EOL;
 echo '========================'. PHP_EOL;
-
-$cwd = $safeDir.'/';

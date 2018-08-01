@@ -34,6 +34,7 @@ $publicDir = $safeDir;
 foreach ($options as $option) {
     if (file_exists($safeDir.'/'.$option)) {
         $publicDir = $safeDir.'/'.$option;
+        $publicExtension = $option;
         break;
     }
 }

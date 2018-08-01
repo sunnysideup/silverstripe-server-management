@@ -13,7 +13,11 @@ if ((php_sapi_name() === 'cli')) {
     var_dump(shell_exec($command));
 
     if(file_exists($publicDir.'/public/assets')) {
-        $command = 'cd '.$publicDir.' && tar czf assets.tar.gz public/assets';
+        $command = 'cd '.$publicDir.'/public/ && tar czf assets.tar.gz assets';
+        echo PHP_EOL.'# '.$command.PHP_EOL;
+        var_dump(shell_exec($command));
+
+        $command = 'mv '.$publicDir.'/public/assets.tar.gz '.$publicDir.'/';
         echo PHP_EOL.'# '.$command.PHP_EOL;
         var_dump(shell_exec($command));
     }

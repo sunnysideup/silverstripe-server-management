@@ -35,7 +35,7 @@ if ((php_sapi_name() === 'cli')) {
     echo PHP_EOL.'# '.$command.PHP_EOL;
     var_dump(shell_exec($command));
 
-    $command = 'mv '.SS_DATABASE_NAME.'.sspak ..';
+    $command = 'mv  '.$publicDir.'/'.SS_DATABASE_NAME.'.sspak  '.$safeDir.'/..';
     echo PHP_EOL.'# '.$command.PHP_EOL;
     var_dump(shell_exec($command));
 

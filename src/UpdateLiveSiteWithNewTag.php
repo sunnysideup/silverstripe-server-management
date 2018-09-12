@@ -69,7 +69,7 @@ if ((php_sapi_name() === 'cli')) {
     file_put_contents($safeDir.'/'.$logFileName, $newFileContent);
 
     //Composer install all the correct dependancies.
-    shell_exec('composer install --no-dev');
+    shell_exec('composer install --no-dev --prefer-dist');
 
     //just in case ...
 

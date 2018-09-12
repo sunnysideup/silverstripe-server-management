@@ -14,9 +14,12 @@ while ($found === false && file_exists($safeDir) && $x < 99) {
     } elseif (file_exists($safeDir.'/.env')) {
         die('please create an _ss_environment.php copy of your .env file. A .env reader will be included in the future.');
         $found = true;
-    }
+    } 
     if ($found === false) {
-        $safeDir = dirname($safeDir);
+        if($x === 2) {
+            die('no .htaccess, .env, or no _ss_enviroment file found => are you in the right place?  You should be in the dir abouve your www root.');
+        } else {
+            $safeDir = dirname($safeDir);
     }
 }
 $cwd = $safeDir.'/';

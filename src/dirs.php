@@ -20,6 +20,7 @@ while ($found === false && file_exists($safeDir) && $x < 99) {
             die('no .htaccess, .env, or no _ss_enviroment file found => are you in the right place?  You should be in the dir abouve your www root.');
         } else {
             $safeDir = dirname($safeDir);
+        }
     }
 }
 $cwd = $safeDir.'/';

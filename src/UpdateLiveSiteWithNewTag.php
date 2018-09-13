@@ -59,14 +59,19 @@ if ((php_sapi_name() === 'cli')) {
     $checkoutResult = shell_exec('git checkout '. $tagToPull);
 
     //Write to the log
-    $oldFileContent = file_get_contents($safeDir.'/'.$logFileName);
+    $logFile = $safeDir.'/'.$logFileName;
+    if(file_exists($logFile)) {
+        $oldFileContent = file_get_contents($logFile);
+    } else {
+        $oldFileContent = '';   
+    }
     
     $newFileContent = $oldFileContent . PHP_EOL . ' - '. $tagToPull . ' - '. date('Y-m-d H:i');
     if($checkoutResult == null){
 		$newFileContent = $oldFileContent . PHP_EOL . ' - FAILED TO CHECKOUT TAG: '. $tagToPull . ' - '. date('Y-m-d H:i');
 		echo PHP_EOL . "------------- GIT CHECKOUT FAILED !!!!! --------------------" . PHP_EOL;
 	} 
-    file_put_contents($safeDir.'/'.$logFileName, $newFileContent);
+    file_put_contents($logFile, $newFileContent);
 
     //Composer install all the correct dependancies.
     shell_exec('composer install --no-dev --prefer-dist');

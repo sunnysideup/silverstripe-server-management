@@ -6,9 +6,7 @@ $found = false;
 $x = 0;
 while ($found === false && file_exists($safeDir) && $x < 99) {
     $x++;
-    if (file_exists('.htaccess')) {
-        //we are in public territory... NOT GOOD
-    } elseif (file_exists($safeDir.'/_ss_environment.php')) {
+    if (file_exists($safeDir.'/_ss_environment.php')) {
         require_once($safeDir.'/_ss_environment.php');
         $found = true;
     } elseif (file_exists($safeDir.'/.env')) {
@@ -17,7 +15,10 @@ while ($found === false && file_exists($safeDir) && $x < 99) {
     } 
     if ($found === false) {
         if($x === 2) {
-            die('no .htaccess, .env, or no _ss_enviroment file found => are you in the right place?  You should be in the dir abouve your www root.');
+            die('
+                No .env or _ss_enviroment file found => are you in the right place?  
+                You should have one of these files in the dir abouve your www root.
+            ');
         } else {
             $safeDir = dirname($safeDir);
         }

@@ -1,7 +1,7 @@
 <?php
 
 //find the safe dir ...
-$safeDir = dirname(realpath($argv[0]));
+$safeDir = realpath(getcwd());
 $found = false;
 $x = 0;
 while ($found === false && file_exists($safeDir) && $x < 99) {

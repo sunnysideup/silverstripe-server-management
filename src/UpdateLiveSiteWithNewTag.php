@@ -51,6 +51,12 @@ if ((php_sapi_name() === 'cli')) {
         $tagToPull = $userDefinedTag;
         echo 'Tag found, using specified tag: ' . $tagToPull. PHP_EOL;
     } else {
+        usort(
+            $splitList,
+            function($a, $b) {
+                return version_compare($a, $b, '<') ? -1 : 1;
+            }
+        );
         $tagToPull = end($splitList);
         echo 'Requested tag not found, using latest tag: ' . $tagToPull . ' instead'.PHP_EOL;
     }
@@ -63,14 +69,14 @@ if ((php_sapi_name() === 'cli')) {
     if(file_exists($logFile)) {
         $oldFileContent = file_get_contents($logFile);
     } else {
-        $oldFileContent = '';   
+        $oldFileContent = '';
     }
-    
+
     $newFileContent = $oldFileContent . PHP_EOL . ' - '. $tagToPull . ' - '. date('Y-m-d H:i');
     if($checkoutResult == null){
-		$newFileContent = $oldFileContent . PHP_EOL . ' - FAILED TO CHECKOUT TAG: '. $tagToPull . ' - '. date('Y-m-d H:i');
-		echo PHP_EOL . "------------- GIT CHECKOUT FAILED !!!!! --------------------" . PHP_EOL;
-	} 
+        $newFileContent = $oldFileContent . PHP_EOL . ' - FAILED TO CHECKOUT TAG: '. $tagToPull . ' - '. date('Y-m-d H:i');
+        echo PHP_EOL . "------------- GIT CHECKOUT FAILED !!!!! --------------------" . PHP_EOL;
+    }
     file_put_contents($logFile, $newFileContent);
 
     //Composer install all the correct dependancies.

@@ -1,21 +1,11 @@
 <?php
 
-//!!!!!!!!!! WARNING THIS DOES NOT YET ACCOUNT FOR REPOS WITHOUT TAGS!!!!!!!!!!!!!!!!!!!
 if ((php_sapi_name() === 'cli')) {
     //Check for user version tag argument
     require_once('dirs.php');
 
-    $userDefinedTag = '';
-
     //Name of file that checkout logs will be dumped into.
     $logFileName = '_git_log.txt';
-
-
-    //If present sets the desired tag version from commandline
-    if ($argc > 1) {
-        $userDefinedTag = $argv[1];
-    }
-
 
 
     //!!!!!! UNCOMENT FOR LIVE ENVIRONMENT !!!!!!
@@ -30,39 +20,9 @@ if ((php_sapi_name() === 'cli')) {
         echo 'You are not in the right directory: '.$publicDir. PHP_EOL;
         exit();
     }
-    shell_exec('git fetch --tags');
-    shell_exec('git fetch --all');
-
-    //what tag are we getting ....
-    $list = (shell_exec('git tag'));
-    $splitList = explode("\n", $list);
-    array_pop($splitList);
-    $tagToPull = '';
-    if (count($splitList) === 0) {
-        $tagToPull = 'master';
-    }
-
-    //Check if the user specified tag is present otherwise
-    //pull the most recent.
-    if ($tagToPull === 'master') {
-        echo 'No tags available, using: ' . $tagToPull . PHP_EOL;
-    //do nothing
-    } elseif (in_array($userDefinedTag, $splitList)) {
-        $tagToPull = $userDefinedTag;
-        echo 'Tag found, using specified tag: ' . $tagToPull. PHP_EOL;
-    } else {
-        usort(
-            $splitList,
-            function($a, $b) {
-                return version_compare($a, $b, '<') ? -1 : 1;
-            }
-        );
-        $tagToPull = end($splitList);
-        echo 'Requested tag not found, using latest tag: ' . $tagToPull . ' instead'.PHP_EOL;
-    }
 
     //Proceed to checkout the last
-    $checkoutResult = shell_exec('git checkout '. $tagToPull);
+    $checkoutResult = shell_exec('git pull origin master');
 
     //Write to the log
     $logFile = $safeDir.'/'.$logFileName;
@@ -72,9 +32,9 @@ if ((php_sapi_name() === 'cli')) {
         $oldFileContent = '';
     }
 
-    $newFileContent = $oldFileContent . PHP_EOL . ' - '. $tagToPull . ' - '. date('Y-m-d H:i');
+    $newFileContent = $oldFileContent . PHP_EOL . ' - master- '. date('Y-m-d H:i');
     if($checkoutResult == null){
-        $newFileContent = $oldFileContent . PHP_EOL . ' - FAILED TO CHECKOUT TAG: '. $tagToPull . ' - '. date('Y-m-d H:i');
+        $newFileContent = $oldFileContent . PHP_EOL . ' - FAILED TO CHECKOUT: master - '. date('Y-m-d H:i');
         echo PHP_EOL . "------------- GIT CHECKOUT FAILED !!!!! --------------------" . PHP_EOL;
     }
     file_put_contents($logFile, $newFileContent);
@@ -95,7 +55,7 @@ if ((php_sapi_name() === 'cli')) {
     echo '
 
 ========================
-You are now at '.shell_exec('git describe --tags ').'
+You are now at the lastest master
 ========================
 
 ';
